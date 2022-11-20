@@ -2,6 +2,7 @@ package com.github.ynovice;
 
 import com.github.ynovice.util.HttpUtils;
 
+import java.net.http.HttpClient;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
@@ -11,20 +12,24 @@ import java.util.stream.Stream;
 
 public class SbermarketApiClientBuilder {
 
+    private final static Duration DEFAULT_TIMEOUT = Duration.of(10, ChronoUnit.SECONDS);
     private final static HttpUtils httpUtils = new HttpUtils();
 
     private final double lat;
     private final double lon;
 
-    private Duration timeout;
-
     private ModelMapper modelMapper;
+    private HttpClient httpClient;
 
     private final HashMap<String, String> headers = new HashMap<>();
 
     {
-        timeout = Duration.of(10, ChronoUnit.SECONDS);
         modelMapper = new ModelMapperJackson();
+        httpClient = HttpClient
+                .newBuilder()
+                .connectTimeout(DEFAULT_TIMEOUT)
+                .version(HttpClient.Version.HTTP_2)
+                .build();
 
         headers.put("Accept", "application/json, text/plain, */*");
         headers.put("Accept-Encoding", "UTF-8");
@@ -34,12 +39,6 @@ public class SbermarketApiClientBuilder {
     public SbermarketApiClientBuilder(double lat, double lon) {
         this.lat = lat;
         this.lon = lon;
-    }
-
-    public SbermarketApiClientBuilder timeout(Duration timeout) {
-        Objects.requireNonNull(timeout, "Timeout cannot be null.");
-        this.timeout = timeout;
-        return this;
     }
 
     public SbermarketApiClientBuilder header(String name, String value) {
@@ -64,6 +63,12 @@ public class SbermarketApiClientBuilder {
         return this;
     }
 
+    public SbermarketApiClientBuilder httpClient(HttpClient httpClient) {
+        Objects.requireNonNull(httpClient, "HttpClient cannot be null.");
+        this.httpClient = httpClient;
+        return this;
+    }
+
     public SbermarketApiClient build() {
 
         String[] headersArray = headers.entrySet()
@@ -72,7 +77,7 @@ public class SbermarketApiClientBuilder {
                 .toList()
                 .toArray(new String[0]);
 
-        return new SbermarketApiClientV3(lat, lon, timeout, headersArray, modelMapper);
+        return new SbermarketApiClientV3(lat, lon, headersArray, modelMapper, httpClient);
     }
 
 

@@ -10,7 +10,6 @@ import java.net.URISyntaxException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.util.Objects;
 
 @Getter
@@ -19,45 +18,56 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
 
     private final static String BASE_URL = "https://sbermarket.ru/api";
 
-    private final HttpClient httpClient;
     private final ModelMapper modelMapper;
 
-    public SbermarketApiClientV3(double lat, double lon, Duration timeout, String[] headers, ModelMapper modelMapper) {
+    /*
+        Fields that are initialized inside the constructor
+     */
+    private final HttpClient httpClient;
+    private final UnsuccessfulHttpResponseExceptionFactory<String> exceptionFactory;
 
-        super(lat, lon, headers, timeout);
+    public SbermarketApiClientV3(double lat,
+                                 double lon,
+                                 String[] headers,
+                                 ModelMapper modelMapper,
+                                 HttpClient httpClient) {
+
+        super(lat, lon, headers);
 
         Objects.requireNonNull(modelMapper, "ModelMapper cannot be null.");
 
         this.modelMapper = modelMapper;
+        this.httpClient = httpClient;
 
-        httpClient = HttpClient
-                .newBuilder()
-                .connectTimeout(timeout)
-                .version(HttpClient.Version.HTTP_2)
-                .build();
+        exceptionFactory = new UnsuccessfulHttpResponseExceptionFactoryImpl(modelMapper);
     }
 
-    public StoreDetailedInfo getStoreDetailedInfoById(int storeId) {
+    public StoreDetailedInfo getStoreDetailedInfoById(int storeId) throws IOException, InterruptedException {
+
+        String finalUrl = BASE_URL + "/stores/" + storeId;
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(createUri(finalUrl))
+                .headers(headers)
+                .GET()
+                .build();
+
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        if(httpResponse.statusCode() != 200) {
+            throw exceptionFactory.nexException(httpResponse);
+        }
+
+        return modelMapper.map(httpResponse.body(), StoreDetailedInfo.class, "store");
+    }
+
+    private URI createUri(String url) {
+        URI uri;
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(new URI(BASE_URL + "/stores/" + storeId))
-                    .headers(headers)
-                    .GET()
-                    .build();
-
-            try {
-                HttpResponse<String> httpResponse = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-                String storeJson = httpResponse.body();
-
-                return modelMapper.map(storeJson, StoreDetailedInfo.class, "store");
-
-            } catch (IOException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
+            uri = new URI(url);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+        return uri;
     }
 }

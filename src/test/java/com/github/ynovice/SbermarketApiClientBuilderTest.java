@@ -3,8 +3,7 @@ package com.github.ynovice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import java.net.http.HttpClient;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -55,17 +54,15 @@ class SbermarketApiClientBuilderTest {
     }
 
     @Test
-    public void testSetTimeout() {
+    public void testSetHttpClient() {
 
-        Duration timeout = Duration.of(333, ChronoUnit.SECONDS);
+        HttpClient httpClient = HttpClient.newHttpClient();
 
-        // test null timeout
-        assertThrows(NullPointerException.class, () -> builder.timeout(null));
+        // test setting null HttpClient
+        assertThrows(NullPointerException.class, () -> builder.httpClient(null));
 
-        // test valid timeout
-        assertDoesNotThrow(() -> builder.timeout(timeout));
-        SbermarketApiClient client = builder.build();
-        assertEquals(timeout, client.getTimeout());
+        // test setting valid HttpClient
+        assertDoesNotThrow(() -> builder.httpClient(httpClient));
     }
 
     @Test
@@ -154,6 +151,12 @@ class SbermarketApiClientBuilderTest {
     @Test
     public void testSetModelMapper() {
 
+        ModelMapper modelMapper = new ModelMapperJackson();
 
+        // test setting null ModelMapper
+        assertThrows(NullPointerException.class, () -> builder.modelMapper(null));
+
+        // test setting valid ModelMapper
+        assertDoesNotThrow(() -> builder.modelMapper(modelMapper));
     }
 }

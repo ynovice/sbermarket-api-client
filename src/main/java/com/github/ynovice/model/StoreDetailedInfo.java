@@ -9,6 +9,9 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.TimeZone;
 
+/**
+ * Detailed information about the store.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
