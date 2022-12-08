@@ -37,10 +37,7 @@ public class StoreDetailedInfo {
     @JsonProperty("closing_time")
     private LocalTime closingTime;
 
-
-    /**
-     * Delivery time forecast.
-     */
+    
     @JsonProperty("delivery_forecast_text")
     private String deliveryForecastText;
     @JsonProperty("pickup_instruction")
@@ -81,17 +78,5 @@ public class StoreDetailedInfo {
     private Boolean boxScanning;
     private Boolean training;
 
-    // todo add pharmacyLegalInfo
-    // todo add ordersApiIntegrationType
-    // todo add retailer
-    // todo add location
-    // todo add storeZones
-    // todo add config
-    // todo add storeSchedule
-    // todo add operationalZone
-    // todo add city
-    // todo add tenants
-    // todo add storeShippingMethods
-    // todo paymentMethodsStores
-    // todo add licenses
+    private RetailerShortInfo retailer;
 }

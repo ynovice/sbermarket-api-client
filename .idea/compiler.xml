@@ -21,7 +21,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="sbermarket-api-client" options="--add-exports java.net.http/jdk.internal.net.http.common=sbermarket.api.client" />
+      <module name="sbermarket-api-client" options="" />
     </option>
   </component>
 </project>
