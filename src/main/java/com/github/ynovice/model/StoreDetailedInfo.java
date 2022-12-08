@@ -37,7 +37,7 @@ public class StoreDetailedInfo {
     @JsonProperty("closing_time")
     private LocalTime closingTime;
 
-    
+
     @JsonProperty("delivery_forecast_text")
     private String deliveryForecastText;
     @JsonProperty("pickup_instruction")
@@ -79,4 +79,5 @@ public class StoreDetailedInfo {
     private Boolean training;
 
     private RetailerShortInfo retailer;
+    private Location location;
 }
