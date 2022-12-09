@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Config of the store.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter

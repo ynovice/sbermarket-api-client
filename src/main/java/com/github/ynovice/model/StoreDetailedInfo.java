@@ -81,4 +81,6 @@ public class StoreDetailedInfo {
     private RetailerShortInfo retailer;
     private Location location;
     private Config config;
+    @JsonProperty("operational_zone")
+    private OperationalZone operationalZone;
 }
