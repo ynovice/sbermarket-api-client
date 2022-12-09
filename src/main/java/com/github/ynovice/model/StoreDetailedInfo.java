@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -84,4 +85,6 @@ public class StoreDetailedInfo {
     @JsonProperty("operational_zone")
     private OperationalZone operationalZone;
     private City city;
+    @JsonProperty("store_zones")
+    private List<StoreZone> storeZones;
 }
