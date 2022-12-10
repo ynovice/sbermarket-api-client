@@ -14,5 +14,5 @@ public class Tenant {
     private String name;
     private String hostname;
     @JsonProperty("preferred_card_payment_method")
-    private String preferredCardPaymentMethod;
+    private PreferredCardPaymentMethod preferredCardPaymentMethod;
 }

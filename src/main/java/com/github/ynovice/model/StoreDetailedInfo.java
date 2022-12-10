@@ -2,6 +2,8 @@ package com.github.ynovice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.ynovice.deserializer.LocalTimeDeserializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,8 +36,10 @@ public class StoreDetailedInfo {
     @JsonProperty("time_zone")
     private TimeZone timeZone;
     @JsonProperty("opening_time")
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime openingTime;
     @JsonProperty("closing_time")
+    @JsonDeserialize(using = LocalTimeDeserializer.class)
     private LocalTime closingTime;
 
 
