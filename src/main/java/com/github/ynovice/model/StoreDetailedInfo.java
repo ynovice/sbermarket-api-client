@@ -89,4 +89,5 @@ public class StoreDetailedInfo {
     private List<StoreZone> storeZones;
     @JsonProperty("store_schedule")
     private StoreSchedule storeSchedule;
+    private List<Tenant> tenants;
 }
