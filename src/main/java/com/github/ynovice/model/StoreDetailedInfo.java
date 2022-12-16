@@ -93,5 +93,7 @@ public class StoreDetailedInfo {
     private List<StoreZone> storeZones;
     @JsonProperty("store_schedule")
     private StoreSchedule storeSchedule;
+    @JsonProperty("pharmacy_legal_info")
+    private PharmacyLegalInfo pharmacyLegalInfo;
     private List<Tenant> tenants;
 }
