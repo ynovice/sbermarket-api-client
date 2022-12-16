@@ -96,4 +96,5 @@ public class StoreDetailedInfo {
     @JsonProperty("pharmacy_legal_info")
     private PharmacyLegalInfo pharmacyLegalInfo;
     private List<Tenant> tenants;
+    private List<License> licenses;
 }
