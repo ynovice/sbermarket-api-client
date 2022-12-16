@@ -83,6 +83,8 @@ public class StoreDetailedInfo {
     private Boolean boxScanning;
     private Boolean training;
 
+    @JsonProperty("orders_api_integration_type")
+    private OrdersApiIntegrationType ordersApiIntegrationType;
     private RetailerShortInfo retailer;
     private Location location;
     private Config config;
