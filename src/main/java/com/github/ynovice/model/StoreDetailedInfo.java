@@ -99,4 +99,6 @@ public class StoreDetailedInfo {
     private PharmacyLegalInfo pharmacyLegalInfo;
     private List<Tenant> tenants;
     private List<License> licenses;
+    @JsonProperty("store_shipping_methods")
+    private List<StoreShippingMethod> storeShippingMethods;
 }
