@@ -101,4 +101,6 @@ public class StoreDetailedInfo {
     private List<License> licenses;
     @JsonProperty("store_shipping_methods")
     private List<StoreShippingMethod> storeShippingMethods;
+    @JsonProperty("payment_methods_stores")
+    private List<StorePaymentMethod> paymentMethodsStores;
 }
