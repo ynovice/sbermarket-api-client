@@ -38,7 +38,9 @@ public class PaymentMethod {
         CASH("cash"),
         EXTERNAL_PARTNER_PAY("external_partner_pay"),
         CASH_DESK("cash_desk"),
-        SBBOL_CASH_HOLD("sbbol_cash_hold");
+        SBBOL_CASH_HOLD("sbbol_cash_hold"),
+        APPLE_PAY("apple_pay"),
+        GOOGLE_PAY("google_pay");
 
         @JsonValue
         private final String value;
