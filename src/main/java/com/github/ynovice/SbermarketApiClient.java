@@ -1,5 +1,6 @@
 package com.github.ynovice;
 
+import com.github.ynovice.model.RetailerDetailedInfo;
 import com.github.ynovice.model.StoreDetailedInfo;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,4 +35,17 @@ public abstract class SbermarketApiClient {
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
     public abstract StoreDetailedInfo getStoreDetailedInfoById(int storeId) throws IOException, InterruptedException;
+
+    /**
+     * Sends http request to Sbermarket API and returns the detailed information about a retailer by its id.
+     * Does not require authorization or authentication.
+     * @param retailerId The store id.
+     * @return {@code RetailerDetailedInfo} instance corresponding to the retailer with the given id.
+     * @throws IOException If an I/O error occurs when sending request or receiving response,
+                           or if the body of http response from Sbermarket API can not be
+                           mapped to the {@code StoreDetailedInfo} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract RetailerDetailedInfo getRetailerDetailedInfoById(int retailerId)
+            throws IOException, InterruptedException;
 }
