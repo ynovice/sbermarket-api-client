@@ -2,8 +2,10 @@ package com.github.ynovice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.ynovice.deserializer.LocalTimeDeserializer;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -103,4 +105,17 @@ public class StoreDetailedInfo {
     private List<StoreShippingMethod> storeShippingMethods;
     @JsonProperty("payment_methods_stores")
     private List<StorePaymentMethod> paymentMethodsStores;
+
+
+    @AllArgsConstructor
+    @Getter
+    public enum OrdersApiIntegrationType {
+        SHOPPER("shopper"),
+        DELIVERY_BY_SBERMARKET("delivery_by_sbermarket"),
+        DELIVERY_BY_RETAILER("delivery_by_retailer");
+
+        @JsonValue
+        private final String type;
+    }
 }
+

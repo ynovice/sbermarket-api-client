@@ -2,9 +2,11 @@ package com.github.ynovice.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.ynovice.deserializer.LocalTimeDeserializer;
 import com.github.ynovice.deserializer.DayOfWeekDeserializer;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -46,4 +48,16 @@ public class DeliveryTime {
     @JsonProperty("slot_active_days")
     @JsonDeserialize(using = DayOfWeekDeserializer.class)
     private Set<DayOfWeek> slotActiveDays;
+
+
+    @AllArgsConstructor
+    @Getter
+    public enum DeliveryKind {
+        COURIER("courier"),
+        PICKUP("pickup"),
+        EXPRESS_DELIVERY("express_delivery");
+
+        @JsonValue
+        private final String kind;
+    }
 }
