@@ -34,6 +34,7 @@ public class SbermarketApiClientBuilder {
         headers.put("Accept", "application/json, text/plain, */*");
         headers.put("Accept-Encoding", "UTF-8");
         headers.put("api-version", "3.0");
+        headers.put("client-token", "7ba97b6f4049436dab90c789f946ee2f");
     }
 
     public SbermarketApiClientBuilder(double lat, double lon) {

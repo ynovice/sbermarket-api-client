@@ -1,5 +1,6 @@
 package com.github.ynovice;
 
+import com.github.ynovice.model.CategoriesResponseBody;
 import com.github.ynovice.model.RetailerDetailedInfo;
 import com.github.ynovice.model.StoreDetailedInfo;
 import lombok.Getter;
@@ -43,9 +44,23 @@ public abstract class SbermarketApiClient {
      * @return {@code RetailerDetailedInfo} instance corresponding to the retailer with the given id.
      * @throws IOException If an I/O error occurs when sending request or receiving response,
                            or if the body of http response from Sbermarket API can not be
-                           mapped to the {@code StoreDetailedInfo} instance.
+                           mapped to the {@code RetailerDetailedInfo} instance.
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
     public abstract RetailerDetailedInfo getRetailerDetailedInfoById(int retailerId)
             throws IOException, InterruptedException;
+
+    /**
+     * Sends http request to Sbermarket API and returns an object containing lists of all the categories present in the
+     * store with the given id.
+     * Requires client authorization: "client-token" header must be present in a request.
+     * @param storeId The store id;
+     * @return {@code CategoriesResponseBody} instance containing the list of all the categories present in the
+     *         store with the given id.
+     * @throws IOException If an I/O error occurs when sending request or receiving response,
+     *                     or if the body of http response from Sbermarket API can not be
+     *                     mapped to the {@code CategoriesResponseBody} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract CategoriesResponseBody getCategoriesByStoreId(int storeId) throws IOException, InterruptedException;
 }
