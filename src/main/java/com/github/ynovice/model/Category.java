@@ -32,4 +32,5 @@ public class Category {
     @JsonProperty("alt_icon")
     private String altIcon;
     private List<Category> children;
+    private List<Requirement> requirements;
 }
