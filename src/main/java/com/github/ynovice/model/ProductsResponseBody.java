@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class ProductsResponseBody {
 
-    private List<Product> products;
+    private List<ProductShortInfo> products;
     private Meta meta;
     @JsonProperty("pagination_meta")
     private Meta paginationMeta;

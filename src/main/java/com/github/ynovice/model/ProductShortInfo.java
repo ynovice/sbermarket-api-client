@@ -11,7 +11,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Getter
 @Setter
-public class Product {
+public class ProductShortInfo {
 
     private Integer id;
     private String sku;
