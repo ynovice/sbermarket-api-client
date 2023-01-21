@@ -51,6 +51,8 @@ public class ProductShortInfo {
     private String canonicalUrl;
     @JsonProperty("legacy_offer_id")
     private Long legacyOfferId;
+    @JsonProperty("legacy_product_id")
+    private Long legacyProductId;
     private String slug;
     @JsonProperty("max_select_quantity")
     private Integer maxSelectQuantity;

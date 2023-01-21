@@ -1,9 +1,6 @@
 package com.github.ynovice;
 
-import com.github.ynovice.model.CategoriesResponseBody;
-import com.github.ynovice.model.ProductsResponseBody;
-import com.github.ynovice.model.RetailerDetailedInfo;
-import com.github.ynovice.model.StoreDetailedInfo;
+import com.github.ynovice.model.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -134,6 +131,30 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
         }
 
         return modelMapper.map(httpResponse.body(), ProductsResponseBody.class);
+    }
+
+    @Override
+    public ProductDetailedInfoResponseBody getProductByIdAndStoreId(int productId, int storeId)
+            throws IOException, InterruptedException {
+
+        String finalUrl = String.format(
+                BASE_URL + "/v3/stores/%d/products/%d",
+                storeId, productId
+        );
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(createUri(finalUrl))
+                .headers(headers)
+                .GET()
+                .build();
+
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        if(httpResponse.statusCode() != 200) {
+            throw exceptionFactory.nexException(httpResponse);
+        }
+
+        return modelMapper.map(httpResponse.body(), ProductDetailedInfoResponseBody.class);
     }
 
 

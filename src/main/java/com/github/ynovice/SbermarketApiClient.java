@@ -38,7 +38,7 @@ public abstract class SbermarketApiClient {
     /**
      * Sends http request to Sbermarket API and returns the detailed information about a retailer by its id.
      * Does not require authorization or authentication.
-     * @param retailerId The store id.
+     * @param retailerId The retailer id.
      * @return {@code RetailerDetailedInfo} instance corresponding to the retailer with the given id.
      * @throws IOException If an I/O error occurs when sending request or receiving response,
                            or if the body of http response from Sbermarket API can not be
@@ -84,4 +84,19 @@ public abstract class SbermarketApiClient {
                                                                              int perPage,
                                                                              String sort)
         throws IOException, InterruptedException;
+
+    /**
+     * Sends http request to Sbermarket API and returns the detailed information about a product by its id and the id
+     * of its' store.
+     * Requires client authorization: "client-token" header must be present in a request.
+     * @param productId The product id.
+     * @param storeId The id of the store in which the product is present.
+     * @return {@code ProductDetailedInfoResponseBody} instance containing a detailed info about the needed product.
+     * @throws IOException If an I/O error occurs when sending request or receiving response,
+    or if the body of http response from Sbermarket API can not be
+    mapped to the {@code ProductDetailedInfoResponseBody} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract ProductDetailedInfoResponseBody getProductByIdAndStoreId(int productId, int storeId)
+            throws IOException, InterruptedException;
 }
