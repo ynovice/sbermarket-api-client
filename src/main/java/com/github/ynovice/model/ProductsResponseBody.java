@@ -54,18 +54,6 @@ public class ProductsResponseBody {
         private String name;
         private String type;
         private List<Option> options;
-
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        @Getter
-        @Setter
-        public static class Option {
-
-            private Integer value;
-            private Integer count;
-            private Boolean active;
-            private String name;
-            private String permalink;
-        }
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -95,5 +83,18 @@ public class ProductsResponseBody {
         private String key;
         private String name;
         private String type;
+        private List<Option> options;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @Getter
+    @Setter
+    public static class Option {
+
+        private Integer value;
+        private Integer count;
+        private Boolean active;
+        private String name;
+        private String permalink;
     }
 }

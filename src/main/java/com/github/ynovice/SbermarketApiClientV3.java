@@ -110,7 +110,7 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
             throws IOException, InterruptedException {
 
         if(sort == null || sort.isBlank()) {
-            sort = "price_desc";
+            sort = "popularity";
         }
 
         String finalUrl = String.format(
@@ -155,6 +155,38 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
         }
 
         return modelMapper.map(httpResponse.body(), ProductDetailedInfoResponseBody.class);
+    }
+
+    @Override
+    public ProductsResponseBody getProductsByStoreIdAndQuery(int storeId,
+                                                             String query,
+                                                             int page,
+                                                             int perPage,
+                                                             String sort)
+            throws IOException, InterruptedException {
+
+        if(sort == null || sort.isBlank()) {
+            sort = "popularity";
+        }
+
+        String finalUrl = String.format(
+                BASE_URL + "/v3/stores/%d/products?q=%s&page=%d&per_page=%d&sort=%s",
+                storeId, query, page, perPage, sort
+        );
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(createUri(finalUrl))
+                .headers(headers)
+                .GET()
+                .build();
+
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        if(httpResponse.statusCode() != 200) {
+            throw exceptionFactory.nexException(httpResponse);
+        }
+
+        return modelMapper.map(httpResponse.body(), ProductsResponseBody.class);
     }
 
 

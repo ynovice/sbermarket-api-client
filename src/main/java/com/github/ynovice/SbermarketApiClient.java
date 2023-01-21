@@ -93,10 +93,33 @@ public abstract class SbermarketApiClient {
      * @param storeId The id of the store in which the product is present.
      * @return {@code ProductDetailedInfoResponseBody} instance containing a detailed info about the needed product.
      * @throws IOException If an I/O error occurs when sending request or receiving response,
-    or if the body of http response from Sbermarket API can not be
-    mapped to the {@code ProductDetailedInfoResponseBody} instance.
+     *                     or if the body of http response from Sbermarket API can not be
+     *                     mapped to the {@code ProductDetailedInfoResponseBody} instance.
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
     public abstract ProductDetailedInfoResponseBody getProductByIdAndStoreId(int productId, int storeId)
             throws IOException, InterruptedException;
+
+    /**
+     * Sends http request to Sbermarket API and returns an object containing list of products present in the
+     * store with the given id, matching the given query.
+     * Requires client authorization: "client-token" header must be present in a request.
+     * @param storeId The store id.
+     * @param query The search query.
+     * @param page The number of the needed page.
+     * @param perPage Amount of products per page.
+     * @param sort The parameter by which sorting is performed and the sorting order.
+     * @return {@code ProductsResponseBody} instance containing one page of products matching the given query
+     *         and meta information about pagination, products count, etc.
+     * @throws IOException If an I/O error occurs when sending request or receiving response,
+     *                     or if the body of http response from Sbermarket API can not be
+     *                     mapped to the {@code ProductsResponseBody} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract ProductsResponseBody getProductsByStoreIdAndQuery(int storeId,
+                                                                      String query,
+                                                                      int page,
+                                                                      int perPage,
+                                                                      String sort)
+        throws IOException, InterruptedException;
 }
