@@ -3,6 +3,7 @@ package com.github.ynovice;
 import com.github.ynovice.model.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -187,6 +188,31 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
         }
 
         return modelMapper.map(httpResponse.body(), ProductsResponseBody.class);
+    }
+
+    @Override
+    public PhoneConfirmationsResponseBody confirmPhoneNumber(String aesEncryptedPhoneNumber) throws IOException, InterruptedException {
+
+        String finalUrl = BASE_URL + "/phone_confirmations";
+
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("phone", aesEncryptedPhoneNumber);
+
+        HttpRequest httpRequest = HttpRequest.newBuilder()
+                .uri(createUri(finalUrl))
+                .headers(headers)
+                .setHeader("Content-Length", String.valueOf(requestBody.toString().length()))
+                .setHeader("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(requestBody.toString()))
+                .build();
+
+        HttpResponse<String> httpResponse = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+        if(httpResponse.statusCode() != 200) {
+            throw exceptionFactory.nexException(httpResponse);
+        }
+
+        return modelMapper.map(httpResponse.body(), PhoneConfirmationsResponseBody.class);
     }
 
 

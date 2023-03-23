@@ -31,6 +31,7 @@ public class PaymentMethod {
         TRANSFER("transfer"),
         CARD_SBER("card_sber"),
         SBER_PAY("sber_pay"),
+        SBER_PAY_V2("sber_pay_v2"),
         SBER_BNPL("sber_bnpl"),
         SBBOL_INSTALLMENT_PLAN("sbbol_installment_plan"),
         CARD_TO_COURIER("card_to_courier"),
