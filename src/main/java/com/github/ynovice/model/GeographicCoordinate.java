@@ -1,14 +1,9 @@
 package com.github.ynovice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@AllArgsConstructor
-@Getter
-@Setter
-public class GeographicCoordinate {
-
-    private Double lon;
-    private Double lat;
-}
+@JsonIgnoreProperties(ignoreUnknown = true)
+public record GeographicCoordinate (
+        Double lon,
+        Double lat
+) {}

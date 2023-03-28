@@ -9,6 +9,10 @@ import com.github.ynovice.model.GeographicCoordinate;
 import com.github.ynovice.model.StoreZone;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class StoreZoneDeserializer extends StdDeserializer<StoreZone> {
 
@@ -21,31 +25,26 @@ public class StoreZoneDeserializer extends StdDeserializer<StoreZone> {
 
         JsonNode storeZoneNode = jp.getCodec().readTree(jp);
 
-        StoreZone storeZone = new StoreZone();
-
         Integer id = storeZoneNode.get("id").isNull() ? null : storeZoneNode.get("id").intValue();
-        storeZone.setId(id);
-
         String name = storeZoneNode.get("name").isNull() ? null : storeZoneNode.get("name").textValue();
-        storeZone.setName(name);
 
         JsonNode areasNode = storeZoneNode.get("area");
 
+        Set<Area> areas = new HashSet<>();
         for(JsonNode areaNode : areasNode) {
 
-            Area area = new Area();
-
+            List<GeographicCoordinate> dots = new ArrayList<>();
             for(JsonNode geographicCoordinateNode : areaNode) {
 
                 Double lon = geographicCoordinateNode.get(0).doubleValue();
                 Double lat = geographicCoordinateNode.get(1).doubleValue();
 
-                area.addDot(new GeographicCoordinate(lon, lat));
+                dots.add(new GeographicCoordinate(lon, lat));
             }
 
-            storeZone.addArea(area);
+            areas.add(new Area(dots));
         }
 
-        return storeZone;
+        return new StoreZone(id, name, areas);
     }
 }

@@ -1,9 +1,7 @@
 package com.github.ynovice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
@@ -15,7 +13,12 @@ public class ModelMapperJackson implements ModelMapper {
 
     public ModelMapperJackson() {
         objectMapper = new ObjectMapper();
+
         objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new RecordNamingStrategyPatchModule());
+
+        objectMapper.setPropertyNamingStrategy(new PropertyNamingStrategies.SnakeCaseStrategy());
+
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         objectMapper.disable(SerializationFeature.WRITE_DATES_WITH_CONTEXT_TIME_ZONE);
     }
@@ -33,5 +36,4 @@ public class ModelMapperJackson implements ModelMapper {
 
         return objectMapper.treeToValue(parsedJson, clazz);
     }
-
 }

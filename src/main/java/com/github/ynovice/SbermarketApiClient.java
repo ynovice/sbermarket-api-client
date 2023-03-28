@@ -10,43 +10,29 @@ import java.io.IOException;
 @Setter
 public abstract class SbermarketApiClient {
 
-    protected double lat;
-    protected double lon;
-    protected String[] headers;
-
-    public SbermarketApiClient(double lat, double lon, String[] headers) {
-
-        if(headers == null) headers = new String[0];
-
-        this.lat = lat;
-        this.lon = lon;
-        this.headers = headers;
-    }
-
     /**
      * Sends http request to Sbermarket API and returns the detailed information about a store by its id.
      * Does not require authorization or authentication.
      * @param storeId The store id.
-     * @return {@code StoreDetailedInfo} instance corresponding to the store with the given id.
+     * @return {@code Store} instance corresponding to the store with the given id.
      * @throws IOException If an I/O error occurs when sending request or receiving response,
                            or if the body of http response from Sbermarket API can not be
-                           mapped to the {@code StoreDetailedInfo} instance.
+                           mapped to the {@code Store} instance.
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
-    public abstract StoreDetailedInfo getStoreDetailedInfoById(int storeId) throws IOException, InterruptedException;
+    public abstract Store getStoreById(int storeId) throws IOException, InterruptedException;
 
     /**
      * Sends http request to Sbermarket API and returns the detailed information about a retailer by its id.
      * Does not require authorization or authentication.
      * @param retailerId The retailer id.
-     * @return {@code RetailerDetailedInfo} instance corresponding to the retailer with the given id.
+     * @return {@code Retailer} instance corresponding to the retailer with the given id.
      * @throws IOException If an I/O error occurs when sending request or receiving response,
                            or if the body of http response from Sbermarket API can not be
-                           mapped to the {@code RetailerDetailedInfo} instance.
+                           mapped to the {@code Retailer} instance.
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
-    public abstract RetailerDetailedInfo getRetailerDetailedInfoById(int retailerId)
-            throws IOException, InterruptedException;
+    public abstract Retailer getRetailerById(int retailerId) throws IOException, InterruptedException;
 
     /**
      * Sends http request to Sbermarket API and returns an object containing lists of all the categories present in the
@@ -133,12 +119,53 @@ public abstract class SbermarketApiClient {
      * query log in the developer tools of your browser after logging in to your account on the sbermarket website.
      *
      * @param aesEncryptedPhoneNumber AES encrypted phone number
-     * @return {@code PhoneConfirmationsResponseBody} instance containing the lenght of the one-time code
+     * @return {@code SendConfirmationCodeResponseBody} instance containing the lenght of the one-time code
      * @throws IOException @throws IOException If an I/O error occurs when sending request or receiving response,
      *                     or if the body of http response from Sbermarket API can not be
-     *                     mapped to the {@code PhoneConfirmationsResponseBody} instance.
+     *                     mapped to the {@code SendConfirmationCodeResponseBody} instance.
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
-    public abstract PhoneConfirmationsResponseBody confirmPhoneNumber(String aesEncryptedPhoneNumber)
+    public abstract SendConfirmationCodeResponseBody sendPhoneConfirmationCode(String aesEncryptedPhoneNumber)
             throws IOException, InterruptedException;
+
+    /**
+     * Sends a one-time phone number confirmation code to the sbermarket API. Used to get instamart session id.
+     *
+     * @param phoneNumber User's raw phone number
+     * @param confirmationCode Phone number confirmation code
+     * @param b2b False for individual users
+     * @param promoTermsAccepted False if the user does not accept promo terms
+     * @return Object containing the length of sent confirmation code
+     * @throws IOException @throws IOException If an I/O error occurs when sending request or receiving response,
+     *                     or if the body of http response from Sbermarket API can not be
+     *                     mapped to the {@code ConfirmPhoneNumberResponseBody} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract ConfirmPhoneNumberResponseBody confirmPhoneNumber(String phoneNumber,
+                                                                      String confirmationCode,
+                                                                      boolean b2b,
+                                                                      boolean promoTermsAccepted)
+            throws IOException, InterruptedException;
+
+    /**
+     * Sends a request to the sbermarket API to get the user's shipments history. The order history is divided
+     * into several fixed-size pages. Additional information about the pages is contained in the {@code Meta} object.
+     *
+     * @param userId The user's id
+     * @param page Required page number
+     * @return One page of the user's shipments history
+     * @throws IOException @throws IOException If an I/O error occurs when sending request or receiving response,
+     *                     or if the body of http response from Sbermarket API can not be
+     *                     mapped to the {@code ConfirmPhoneNumberResponseBody} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract ShipmentsPage getShipments(long userId, int page) throws IOException, InterruptedException;
+
+
+    /**
+     * Instamart session becomes available after successful execution of the {@code confirmPhoneNumber} method
+     *
+     * @return Current instamart session id of the user.
+     */
+    public abstract String getInstamartSession();
 }

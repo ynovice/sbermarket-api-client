@@ -21,6 +21,7 @@ public class UnsuccessfulHttpResponseExceptionFactoryImpl implements Unsuccessfu
 
         int statusCode = httpResponse.statusCode();
         String message = "The response from the server has the status code " + statusCode;
+
         UnsuccessfulResponseBody responseBodyObject = modelMapper.map(responseBodyJson, UnsuccessfulResponseBody.class);
 
         return new UnsuccessfulHttpResponseException(message, statusCode, responseBodyObject);

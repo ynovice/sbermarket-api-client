@@ -4,17 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Getter
-@Setter
-public class PaymentMethod {
-
-    private Integer id;
-    private String name;
-    private Environment environment;
-    private Key key;
+public record PaymentMethod (
+        Integer id,
+        String name,
+        Environment environment,
+        Key key
+) {
 
     @Getter
     @AllArgsConstructor
