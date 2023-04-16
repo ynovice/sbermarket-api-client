@@ -207,7 +207,9 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
     @Override
     public ShipmentsPage getShipments(long userId, int page) throws IOException, InterruptedException {
 
-        if(getInstamartSession() == null) {
+        String instamartSession = getInstamartSession();
+
+        if(instamartSession == null) {
             throw new AuthorizationException("No Instamart session: in order to receive information on shipments, " +
                     "the customer must be authorized");
         }
@@ -217,10 +219,34 @@ public class SbermarketApiClientV3 extends SbermarketApiClient {
                 userId, page
         );
 
-        String cookieValue = INSTAMART_SESSION_COOKIE_NAME + "=" + getInstamartSession();
+        String cookieValue = INSTAMART_SESSION_COOKIE_NAME + "=" + instamartSession;
         HttpResponse<String> httpResponse = sendHttpRequest(finalUrl, "GET", "", List.of(cookieValue));
 
         return modelMapper.map(httpResponse.body(), ShipmentsPage.class);
+    }
+
+    @Override
+    public LineItemsResponseBody getLineItemsByShipmentNumber(String shipmentNumber, int page, int perPage)
+            throws IOException, InterruptedException {
+
+        Objects.requireNonNull(shipmentNumber, "Shipment number cannot be null");
+
+        String instamartSession = getInstamartSession();
+
+        if(instamartSession == null) {
+            throw new AuthorizationException("No Instamart session: in order to receive information on shipments, " +
+                    "the customer must be authorized");
+        }
+
+        String finalUrl = String.format(
+                BASE_API_URL + "/shipments/%s/assembly_items?page=%d&per_page=%d",
+                shipmentNumber, page, perPage
+        );
+
+        String cookieValue = INSTAMART_SESSION_COOKIE_NAME + "=" + instamartSession;
+        HttpResponse<String> httpResponse = sendHttpRequest(finalUrl, "GET", "", List.of(cookieValue));
+
+        return modelMapper.map(httpResponse.body(), LineItemsResponseBody.class);
     }
 
     @Override

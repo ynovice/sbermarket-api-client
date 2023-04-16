@@ -156,11 +156,27 @@ public abstract class SbermarketApiClient {
      * @return One page of the user's shipments history
      * @throws IOException @throws IOException If an I/O error occurs when sending request or receiving response,
      *                     or if the body of http response from Sbermarket API can not be
-     *                     mapped to the {@code ConfirmPhoneNumberResponseBody} instance.
+     *                     mapped to the {@code ShipmentsPage} instance.
      * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
      */
     public abstract ShipmentsPage getShipments(long userId, int page) throws IOException, InterruptedException;
 
+    /**
+     * Sends a request to the sbermarket API to get a list of line items in the shipment with the specified number.
+     * The line items list is divided into several fixed-size pages. Additional information about the pages
+     * is contained in the {@code Meta} object.
+     *
+     * @param shipmentNumber The shipment's number
+     * @param page Required page number
+     * @param perPage Amount of line items per page
+     * @return One page of the shipment's line items
+     * @throws IOException @throws IOException If an I/O error occurs when sending request or receiving response,
+     *                     or if the body of http response from Sbermarket API can not be
+     *                     mapped to the {@code ShipmentsPage} instance.
+     * @throws InterruptedException If the operation of sending http request or receiving http response is interrupted.
+     */
+    public abstract LineItemsResponseBody getLineItemsByShipmentNumber(String shipmentNumber, int page, int perPage)
+            throws IOException, InterruptedException;
 
     /**
      * Instamart session becomes available after successful execution of the {@code confirmPhoneNumber} method
